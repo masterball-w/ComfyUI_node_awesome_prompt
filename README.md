@@ -1,12 +1,13 @@
 # ComfyUI_node_awesome_prompt
 
-给 **Qwen-Image 2.1** 用的中文提示词模板节点：下拉选模板，正向/负向提示词自动填充，之后可以继续手动修改。
+给 **Qwen-Image 2.1** 用的中英双语提示词模板节点：切换语种后下拉选模板，正向/负向提示词自动填充，之后可以继续手动修改。
 
 ![节点示例](assets/example.png)
 
 ## 功能
 
-- 内置 **120 条中文提示词模板**，下拉框按「分类 - 标题」命名，支持前端搜索
+- 内置 **120 条模板，中英各一套且一一对应**：下拉框按「分类 - 标题」命名，支持前端搜索
+- `语种` 下拉框在 `中文` / `English` 之间切换，模板列表随之切换，并自动定位到同一条模板的对应语言版本
 - 选中模板后自动把正向、负向提示词写入两个文本框，可直接编辑
 - 使用 Qwen-Image 2.1 专用文本编码模板（`clip.tokenize(..., keep_vision=True)`），输出 4096 维 conditioning
 - 文本框留空时后端自动回退到模板内容，即使前端脚本未加载也能正常出图
@@ -28,7 +29,8 @@ git clone https://github.com/masterball-w/ComfyUI_node_awesome_prompt.git
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
 | `clip` | CLIP | 必须接 Qwen-Image 2.1 的文本编码器 |
-| `模板` | 下拉框 | 120 条中文模板，选中后自动填充下面两个文本框 |
+| `语种` | 下拉框 | `中文` / `English`，切换后模板列表与提示词语种同步切换 |
+| `模板` | 下拉框 | 120 条模板（按语种显示对应语言），选中后自动填充下面两个文本框 |
 | `正向提示词` | 多行文本 | 自动载入，可自由修改 |
 | `负向提示词` | 多行文本 | 自动载入，可自由修改 |
 | `positive` | CONDITIONING | 接 KSampler 的 positive |
@@ -52,11 +54,11 @@ VAE Loader           qwen_image_2.1_vae_bf16.safetensors
 
 ## 模板数据
 
-`prompts.json` 中的提示词来自开源项目 [YouMind-OpenLab/awesome-gpt-image-2](https://github.com/YouMind-OpenLab/awesome-gpt-image-2) 的中文 README，按其 **CC BY 4.0** 许可使用，署名信息见 [NOTICE](NOTICE)。
+`prompts.json` 中的提示词来自开源项目 [YouMind-OpenLab/awesome-gpt-image-2](https://github.com/YouMind-OpenLab/awesome-gpt-image-2) 的 `README_zh.md` 与 `README.md`，中英各 120 条并按键值一一对应，按其 **CC BY 4.0** 许可使用，署名信息见 [NOTICE](NOTICE)。
 
-原仓库只提供正向提示词，本节点的负向提示词统一使用一组通用质量词（低质量、模糊、畸形、水印等），可在节点内按需修改。
+原仓库只提供正向提示词，本节点的负向提示词按语种各提供一组通用质量词（中文/英文），可在节点内按需修改。
 
-模板数据更新方式：重新解析上游 `README_zh.md`，覆盖 `prompts.json` 即可，节点代码无需改动。
+模板数据更新方式：重新解析上游 `README_zh.md` 与 `README.md`，覆盖 `prompts.json` 即可，节点代码无需改动。
 
 ## 目录结构
 
